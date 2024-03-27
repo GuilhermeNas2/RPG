@@ -1,3 +1,4 @@
+from main import Conn;
 
 class Priest:
     
@@ -5,12 +6,11 @@ class Priest:
         self.nome = nome;
         self.raca = raca;
         self.classe = "Clérigo";
-        self.vida = vida;
-
-
-    # def insertMagic():
+        self.vida = vida;  
 
 
 
-character = Priest(10, "Anão", "Alberto");
-print(character.classe);    
+
+Priest.insertMagic();
+# character = Priest(10, "Anão", "Alberto");
+# print(character.classe);    
