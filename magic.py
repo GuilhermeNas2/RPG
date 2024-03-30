@@ -30,6 +30,7 @@ class Magic:
                 cursor.execute(query, values);
 
                 conn.commit();
+                conn.close();
                 print(result)
 
         except Error as e:
