@@ -3,8 +3,8 @@ import random
 class Dice:
 
     @staticmethod
-    def rollD6():
-        number = random.randint(1,6)        
+    def rollD6(sides, qtnd):
+        number = qtnd*random.randint(1,sides)        
         return number
 
     @staticmethod
@@ -17,7 +17,7 @@ class Dice:
         nMax = 0;
         arrStats = [];
         while nMax <=3:
-            number = Dice.rollD6();
+            number = Dice.rollD6(1,1);
             arrStats.append(number);
             nMax +=1;
         minNumber = min(arrStats);

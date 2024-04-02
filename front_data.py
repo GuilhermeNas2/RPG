@@ -11,7 +11,7 @@ CORS(app)
 # rotas dos Dados 
 @app.route('/rolld6', methods=['POST'])
 def receberDados():
-    number = Dice.rollD6()
+    number = Dice.rollD6(1,1)
     data = request.json    
     return jsonify({'mensagem': number})
 
@@ -28,13 +28,12 @@ def receberDados3():
     return jsonify({'mensagem': number})
 
 # rota dos status
-@app.route('/postStatus', methods=['POST'])
-def postStatus():
-    data = request.json
-    print('recebimento dos dados', data)
-    number = Priest.insertStatus(data)   
+@app.route('/postPersona', methods=['POST'])
+def postPersona():
+    data = request.json    
+    persona = Priest.insertPersona(data)  
     
-    return jsonify({'mensagem': number})
+    return jsonify({'mensagem': data})
 
 
 @app.route('/', methods=['POST'])
