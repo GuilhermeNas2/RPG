@@ -1,18 +1,17 @@
 class Teste{
     nome: string | undefined;
     param: any | undefined;
-    holder: string | undefined;
+    
 }
 
 function Inputs(props: Teste) {
 
    
     return(        
-            <input type="text" 
-            placeholder={props.holder}   
+            <input type="text"               
             value={props.nome}
             onChange={props.param}
-            className="text-zinc-950"
+            className="text-zinc-950 text-center border-none outline-none w-1/2"
              />
        
     )
