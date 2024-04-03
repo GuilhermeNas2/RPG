@@ -45,10 +45,10 @@ export default function createChar() {
                 onSubmit={sendData}
                 className="w-full">
                     <div className="w-full bg-white h-60 flex">   
-                        <LabelInfo title="Nome" nome={nome} param={(e:any) => setNome(e.target.value)} holder="Nome"></LabelInfo>
-                        <LabelInfo title="Classe" nome={classe} param={(e:any) => setClasse(e.target.value)} holder="Classe"></LabelInfo>
-                        <LabelInfo title="Raça" nome={raça} param={(e:any) => setRaça(e.target.value)} holder="Raça"></LabelInfo>
-                        <LabelInfo title="Nivel" nome={nivel} param={(e:any) => setNivel(e.target.value)} holder="Nivel"></LabelInfo>                                              
+                        <LabelInfo title="Nome" nome={nome} param={(e:any) => setNome(e.target.value)} holder="Nome" type="text"></LabelInfo>
+                        <LabelInfo title="Classe" nome={classe} param={(e:any) => setClasse(e.target.value)} holder="Classe" type="text"></LabelInfo>
+                        <LabelInfo title="Raça" nome={raça} param={(e:any) => setRaça(e.target.value)} holder="Raça" type="text"></LabelInfo>
+                        <LabelInfo title="Nivel" nome={nivel} param={(e:any) => setNivel(e.target.value)} holder="Nivel" type="number"></LabelInfo>                                              
                     </div>
                     <div className="flex bg-white justify-around ">
                         <div className="text-white w-1/2">
@@ -56,12 +56,12 @@ export default function createChar() {
                         </div>
                         <div className="w-1/2">
                         <h2>Status</h2>              
-                            <Label title="Força" nome={str} param={(e:any) => setStr(e.target.value)} holder="Força"></Label>
-                            <Label title="Destreza" nome={des} param={(e:any) => setDes(e.target.value)} holder="Destreza"></Label>
-                            <Label title="Constituição" nome={cons} param={(e:any) => setCons(e.target.value)} holder="Constituição"></Label>
-                            <Label title="Carisma" nome={char} param={(e:any) => setChar(e.target.value)} holder="Carisma"></Label>
-                            <Label title="Inteligência" nome={int} param={(e:any) => setInt(e.target.value)} holder="Inteligência"></Label>
-                            <Label title="Sabedoria" nome={sab} param={(e:any) => setSab(e.target.value)} holder="Sabedoria"></Label>                
+                            <Label title="Força" nome={str} param={(e:any) => setStr(e.target.value)} holder="Força" type="number"></Label>
+                            <Label title="Destreza" nome={des} param={(e:any) => setDes(e.target.value)} holder="Destreza" type="number"></Label>
+                            <Label title="Constituição" nome={cons} param={(e:any) => setCons(e.target.value)} holder="Constituição" type="number"></Label>
+                            <Label title="Carisma" nome={char} param={(e:any) => setChar(e.target.value)} holder="Carisma" type="number"></Label>
+                            <Label title="Inteligência" nome={int} param={(e:any) => setInt(e.target.value)} holder="Inteligência" type="number"></Label>
+                            <Label title="Sabedoria" nome={sab} param={(e:any) => setSab(e.target.value)} holder="Sabedoria" type="number"></Label>                
                             <Button title="enviar"></Button>                
                         </div>
                     </div>

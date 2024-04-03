@@ -1,4 +1,6 @@
 import os
+
+from classe import Persona
 from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 
@@ -34,6 +36,14 @@ def postPersona():
     persona = Priest.insertPersona(data)  
     
     return jsonify({'mensagem': data})
+
+@app.route('/getPersona', methods=['GET'])
+def getPersona():
+    data = request.args.get('nome')  
+    
+    persona = Persona.getPersona(data)  
+    
+    return jsonify({'mensagem': persona})
 
 
 @app.route('/', methods=['POST'])

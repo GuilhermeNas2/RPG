@@ -1,7 +1,9 @@
+from classe import Persona
 from main import Conn;
 from dice import Dice;
+from mysql.connector import Error;
 
-class Priest:   
+class Priest(Persona):   
     
     def __init__(self, nome, nivel, raca, classe):
         self.nome = nome;
@@ -12,98 +14,29 @@ class Priest:
             self.vida = 8;
             return
         else:
-            self.vida = 8 +  Dice.rollD6(8,nivel); 
-    
-    def calcModify(number):
-        modify = 0;
+            self.vida = 8 + Dice.rollD6(8,nivel); 
 
-        if number == 1: 
-            modify = -5
-        
-        if number >= 2 and number <= 3: 
-            modify = -4
-            return modify 
-        
-        if number >= 4 and number <= 5: 
-            modify = -3
-            return modify
-        
-        if number >= 6 and number <= 7:
-            modify = -2
-            return modify; 
-        
-        if number >= 8 and number <= 9: 
-            modify = -1
-            return modify
-        
-        if number >= 10 and number <= 11: 
-            modify = -0
-            return modify
-        
-        if number >= 12 and number <= 13:
-            modify = 1 
-            return modify
-        
-        if number >= 14 and number <= 15:
-            modify = 2
-            return modify
-        
-        if number >= 16 and number <= 17:
-            modify = 3
-            return modify
-        
-        if number >= 18 and number <= 19:
-            modify = 4
-            return modify
-        
-        if number >= 20 and number <= 21:
-            modify = 5
-            return modify
-        
-        if number >= 22 and number <= 23:
-            modify = 6
-            return modify
-        
-        if number >= 24 and number <= 25:
-            modify = 7
-            return modify 
-        
-        if number >= 26 and number <= 27:
-            modify = 8
-            return modify 
-        
-        if number >= 28 and number <= 29:
-            modify = 9
-            return modify
-        
-        if number == 30:
-            modify = 10
-            return modify               
-        
     
-
-    @staticmethod
     def insertStatus(data, name, vida):
         status = []
         status = data;
-        nome = name
+        nome = name        
 
-        iniciativa = Priest.calcModify(int(data["des"]))
-
+        iniciativa = Persona.calcModify(int(status["des"]))
+        
         try:
             conn = Conn.connect_todb();
             cursor = conn.cursor();  
-            query = "SELECT Id FROM persona WHERE Nome='" + nome +"' ORDER BY Data_criacao ASC";        
+            query = "SELECT Id FROM persona WHERE Nome='" + nome +"' ORDER BY Data_criacao DESC";        
             cursor.execute(query);
-            Id = cursor.fetchone();           
-        
+            Id = cursor.fetchone();                       
             query = "INSERT INTO status(Id,Vida,Iniciativa,Força,Destreza,Carisma,Inteligência,Sabedoria,Criado_por,Modificado_por) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)";
             values = (Id[0],vida,iniciativa,status["str"],status["des"],status["char"],status["int"],status["sab"],1,1);
             cursor.execute(query,values); 
 
             conn.commit();         
-        except:
-            print("Ocorreu algum erro")
+        except Error as e:
+            print(f"Ocorreu algum erro {e}"  )
 
     @staticmethod
     def insertPersona(infos):
@@ -125,8 +58,8 @@ class Priest:
             conn.commit();
 
             Priest.insertStatus(dataStats, data["nome"], persona.vida);
-        except:
-            print('Algum erro ocorreu')        
+        except Error as e:
+            print('Algum erro ocorreu e')        
 
         
 
