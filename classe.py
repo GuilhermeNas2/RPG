@@ -1,4 +1,5 @@
 from main import Conn
+import mysql.connector
 
 class Persona: 
         
@@ -70,17 +71,17 @@ class Persona:
             return modify        
     
 
-     def getPersona(name):
+     def getPersona(name):  
          
-         persona = name;
-
          conn = Conn.connect_todb();
          cursor = conn.cursor();
 
-         query = "SELECT Nome, Classe, Raça, Nivel FROM persona WHERE Nome='"+ name +"'";
-         cursor.execute(query);
-         result = cursor.fetchone();
-         
+         query = "SELECT * FROM view_persona_stats WHERE Nome='"+ name +"'";
+         cursor.execute(query); 
+         nomes_colunas = cursor.column_names
+        #  result = cursor.fetchone()   
+         result = [dict(zip(nomes_colunas, linha)) for linha in cursor]    
+        
          return result;
  
         

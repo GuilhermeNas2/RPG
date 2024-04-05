@@ -1,8 +1,4 @@
 "use client";
-import { useState } from "react";
-import {Label, LabelInfo} from "./label";
-import { title } from "process";
-import Button from "./button";
 
 function Main() {    
     
@@ -23,8 +19,7 @@ function Main() {
 
     return(
         <main className="flex flex-col min-h-screen items-center justify-between p-24">     
-          
-         
+                 
       </main>
     )
 };

@@ -1,28 +1,42 @@
 "use client"
 import { useState, useEffect } from "react"
 
+
 export default function Ficha({nome}:any) {
 
-    nome = "Atlas"
+    nome = "Guilherme"
 
-    const [info, setInfo] = useState('');
+    const [info, setInfo] = useState<any>();
 
     useEffect(() => {
         async function fetchData() {
-            const response = await fetch(`http://127.0.0.1:5000/getPersona?nome=${nome}`, {
+            try
+            {
+                const response = await fetch(`http://127.0.0.1:5000/getPersona?nome=${nome}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type':'application/json',
                 }                
                 });
-            const data =  await response.json() 
-            console.log(data["mensagem"][0]);
-            setInfo(data);
-        }
-
+                   
+                const data =  await response.json() 
+                setInfo(data);                
+            } catch {
+                console.log("error")
+            }          
+           
+        }        
         fetchData();
-    }, [nome])
+        
+    }, [nome])    
+     
+    
     return(
-        <h1>Ola</h1>
+        <>            
+             {info && 
+             <h1> (Classe: {info.status[0].Carisma}, Nível: {info.Nivel}      
+            )</h1>  }
+            
+        </>
     )
 }

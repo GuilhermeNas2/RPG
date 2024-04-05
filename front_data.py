@@ -5,6 +5,7 @@ from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 
 from dice import Dice
+from login import Login
 from persona import Priest
 
 app = Flask(__name__)
@@ -41,10 +42,17 @@ def postPersona():
 def getPersona():
     data = request.args.get('nome')  
     
-    persona = Persona.getPersona(data)  
-    
-    return jsonify({'mensagem': persona})
+    persona = Persona.getPersona(data)      
+    return jsonify({"status":persona})
 
+# rotda do login
+@app.route('/teste', methods=['GET'])    
+def getLogin():
+    user = request.args.get('user')
+    key = request.args.get('key')
+
+    login = Login.searchLogin
+    return jsonify({"status":key})
 
 @app.route('/', methods=['POST'])
 def index():    

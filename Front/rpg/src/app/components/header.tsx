@@ -1,3 +1,4 @@
+import Link from "next/link"
 
 function Header(){
     return (
@@ -5,6 +6,7 @@ function Header(){
             <div>
                 TKD RPG
             </div>
+            <Link href={{pathname: '/ficha', query: {nome:'Guilherme'}}}> Personagem </Link>   
         </header>
     )
 }
