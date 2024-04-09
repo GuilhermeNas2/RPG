@@ -4,9 +4,8 @@ class Teste{
     type: string | undefined
 }
 
-function Inputs(props: Teste) {
+export const Inputs = (props: Teste) => {
 
-   
     return(        
             <input type={props.type}               
             value={props.nome}
@@ -17,4 +16,14 @@ function Inputs(props: Teste) {
     )
 }
 
-export default Inputs;
+export const InputsLogin = (props:Teste) => {
+    return(        
+        <input type={props.type}               
+        value={props.nome}
+        onChange={props.param}
+        className="text-zinc-950 bg-slate-100 outline-none p-1"
+        required        
+         />
+   
+    )
+}

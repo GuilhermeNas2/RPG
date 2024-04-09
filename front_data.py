@@ -45,14 +45,20 @@ def getPersona():
     persona = Persona.getPersona(data)      
     return jsonify({"status":persona})
 
-# rotda do login
+# rota do login
 @app.route('/teste', methods=['GET'])    
 def getLogin():
     user = request.args.get('user')
     key = request.args.get('key')
 
-    login = Login.searchLogin
-    return jsonify({"status":key})
+    login = Login.searchLogin(user, key)
+    return jsonify({"status":login})
+
+@app.route('/signup', methods=['POST'])
+def postUser():
+    data = request.json
+    user = Login.createUser(data)
+    return jsonify({"status":user})
 
 @app.route('/', methods=['POST'])
 def index():    

@@ -1,4 +1,4 @@
-import Inputs from "./inputs";
+import {Inputs, InputsLogin} from "./inputs";
 
 class Teste{
     props?: string | undefined;
@@ -28,3 +28,12 @@ export const LabelInfo = (props: Teste) => {
     )
 }
 
+
+export const LabelLogin = (props: Teste) => {
+    return (
+        <label htmlFor="" className="flex flex-col mb-8 p-1 h-24 w-3/5 text-zinc-950 text-start gap-1">
+            {props.title}
+            <InputsLogin nome={props.nome} param={props.param} type={props.type}/>            
+        </label>
+    )
+}
