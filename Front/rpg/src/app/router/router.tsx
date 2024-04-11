@@ -5,6 +5,6 @@ import { revalidatePath } from 'next/cache'
  
 export async function changePage(url: string) { 
  
-  revalidatePath(`/${url}`) // Update cached posts
-  redirect(`/${url}`) // Navigate to the new post page
+  revalidatePath(`/${url}`)
+  redirect(`/${url}`) 
 }

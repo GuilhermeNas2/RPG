@@ -1,13 +1,15 @@
 "use client"
 import { useState, useEffect } from "react"
+import { useUser } from "../userContext";
 
 
 export default function Ficha({nome}:any) {
 
-    nome = "Guilherme"
-
+    nome = "Lucca"
+    const {user} = useUser()    
     const [info, setInfo] = useState<any>();
 
+    console.log(user)
     useEffect(() => {
         async function fetchData() {
             try
@@ -34,7 +36,7 @@ export default function Ficha({nome}:any) {
     return(
         <>            
              {info && 
-             <h1> (Classe: {info.status[0].Carisma}, Nível: {info.Nivel}      
+             <h1> (Classe: {info.status[0].Carisma}, Nível: {info.Nivel}     
             )</h1>  }
             
         </>

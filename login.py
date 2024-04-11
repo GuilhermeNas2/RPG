@@ -11,49 +11,64 @@ class Login:
         conn = Conn.connect_todb();
         cursor = conn.cursor();
 
-        query = "SELECT Id,user, senha FROM user WHERE user='"+nome+"'"; 
-        cursor.execute(query);
-        result = cursor.fetchone();
+        try:
+            query = "SELECT Id,user, senha FROM user WHERE user='"+nome+"'"; 
+            cursor.execute(query);
+            result = cursor.fetchone();
+            
+            senha = result[2]
 
-        user = result[1]
-        senha = result[2]
+            if senha != key:
+               mensagem = "A senha esta incorreta"
+               return mensagem
+            
+            return result
         
-        if user == nome and key == senha:             
-            return result 
+        except:                                     
+            mensagem = "O usuário esta incorreto"
+            return mensagem 
+            
+           
+        
+        
         
     def createUser(keys):
-        info = keys["data"]
-        print(info)
+        info = keys["data"]        
 
         conn = Conn.connect_todb();
         cursor = conn.cursor();
 
-        query = "SELECT user FROM user WHERE user='"+info["name"]+"'"
-        cursor.execute(query)
-        result = cursor.fetchone()
-        
-        if result[0] == info["name"]:
-            print("Nome de usuário ja em uso")
-            return
-        
-        query = "SELECT email FROM user WHERE email='"+info["email"]+"'"
-        cursor.execute(query)
-        result = cursor.fetchone()
-
-        if result[0] == info["email"]:
-            print("Email ja em uso")
-            return     
-
         try:
-            query = "INSERT INTO user(user, senha, email, Criado_por, Modificado_por) Values (%s,%s,%s,%s,%s)"
-            values = (info["name"], info["key"], info["email"], 1, 1)
-            cursor.execute(query, values)
+            query = "SELECT user FROM user WHERE user='"+info["name"]+"'"
+            cursor.execute(query)
+            result = cursor.fetchone()  
 
-            conn.commit();
-            Login.sendEmail(info["email"]);
-        
-        except:
-            print("Deu merda")
+            if result[0] == info["name"]:
+               print("Nome de usuário ja em uso")
+               return          
+           
+        except:  
+
+            try:
+                query = "SELECT email FROM user WHERE email='"+info["email"]+"'"
+                cursor.execute(query)
+                result = cursor.fetchone()
+
+                if result[0] == info["email"]:
+                    print("Email ja em uso")
+                    return     
+            except:    
+
+                try:
+                    query = "INSERT INTO user(user, senha, email, Criado_por, Modificado_por) Values (%s,%s,%s,%s,%s)"
+                    values = (info["name"], info["key"], info["email"], 1, 1)
+                    cursor.execute(query, values)
+
+                    conn.commit();
+                    # Login.sendEmail(info["email"]);
+                
+                except:
+                    print("Deu merda")
 
         return 
     

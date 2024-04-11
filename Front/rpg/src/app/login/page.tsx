@@ -3,13 +3,17 @@ import { useState } from "react"
 import { changePage } from "../router/router";
 import { LabelLogin } from "../components/label";
 import Link from "next/link";
+import { useUser } from "../userContext";
 
 export default function Login() {
     
     const [data, setData] = useState('');  
+    const [erro, setErro] = useState<any>();  
     const [password, setPassword] = useState('');
     const [name, setName] = useState(''); 
+    const {setUser, user} = useUser()
 
+    
     async function sendData(event: { preventDefault: () => void }, user: string, key: string) {
         event.preventDefault();       
 
@@ -21,19 +25,28 @@ export default function Login() {
                 }
             });
             const data = await result.json();
-            console.log(data.status[0])
-            setData(data);             
-            changePage('ficha');
+            console.log(data.status);
+
+            if(data.status && Array.isArray(data.status) && data.status.length > 0){                
+                setData(data);     
+                setUser(1);     
+                changePage('ficha')
+            };
+
+            setErro(data.status);
+           
             
         } catch {
             console.log("opa");
+            
         }      
         
     }   
    
     
     function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-        sendData(event, name, password);        
+        sendData(event, name, password); 
+         
     }   
 
     return (
@@ -47,8 +60,11 @@ export default function Login() {
                     onSubmit={(event) => handleSubmit(event)}
                     className="w-3/4 h-1/2 flex flex-col gap-3 items-center p-3">
                        <h2 className="text-neutral-500 text-5xl my-24">Seja bem vindo a Taverna</h2>
-                       <LabelLogin title="Usuário" nome={name} holder="Guilherme" type="text" param={(e:any) => setName(e.target.value)}></LabelLogin>
+                       <LabelLogin title="Usuário" nome={name} holder="Guilherme" type="text" param={(e:any) => setName(e.target.value)}></LabelLogin>                       
                        <LabelLogin title="Senha" nome={password} holder="" type="password" param={(e:any) => setPassword(e.target.value)}></LabelLogin>
+                       {erro &&
+                        <span className="text-black">{erro}</span>
+                        }
                        <div className="flex flex-col items-start mb-10 gap-1"> 
                         <span className="text-neutral-500"><Link href={'/signup'}>Não faz parte da guilda?</Link></span>
                         <span className="text-neutral-500">Esqueceu a senha?</span>
