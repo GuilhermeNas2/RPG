@@ -58,6 +58,7 @@ class Priest(Persona):
             conn.commit();
 
             Priest.insertStatus(dataStats, data["nome"], persona.vida);
+           
         except Error as e:
             print('Algum erro ocorreu e')        
 

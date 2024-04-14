@@ -11,7 +11,7 @@ export default function Login() {
     const [erro, setErro] = useState<any>();  
     const [password, setPassword] = useState('');
     const [name, setName] = useState(''); 
-    const {setUser, user} = useUser()
+    const {setUser} = useUser()
 
     
     async function sendData(event: { preventDefault: () => void }, user: string, key: string) {
@@ -27,13 +27,14 @@ export default function Login() {
             const data = await result.json();
             console.log(data.status);
 
-            if(data.status && Array.isArray(data.status) && data.status.length > 0){                
-                setData(data);     
-                setUser(1);     
-                changePage('ficha')
+            if(!(data.status && Array.isArray(data.status)) && data.status.length > 0){                
+                setErro(data.status);
+                return
             };
 
-            setErro(data.status);
+            setData(data);     
+            setUser(data.status[0]);     
+            changePage('home');          
            
             
         } catch {

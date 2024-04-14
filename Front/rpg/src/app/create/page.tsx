@@ -19,10 +19,26 @@ export default function createChar() {
     const [char, setChar] = useState('');
     const [int, setInt] = useState('');
     const [sab, setSab] = useState('');
-    const [cons, setCons] = useState('');
+    const [cons, setCons] = useState('');    
+
+    const handleFile = async (e:any) => {
+        const file = e.target.files[0];
+        
+        const formData = new FormData();   
+        formData.append('image', file)     
+        console.log(formData)
+        const response = await fetch('http://127.0.0.1:5000/postImage', {
+        method: 'POST',            
+        body: formData,
+        });
+        
+    };    
+
+    
 
     const sendData = async (event: { preventDefault: () => void; }) => {
         event.preventDefault();
+             
 
         const response = await fetch('http://127.0.0.1:5000/postPersona', {
         method: 'POST',
@@ -52,7 +68,9 @@ export default function createChar() {
                     </div>
                     <div className="flex bg-white justify-around ">
                         <div className="text-white w-1/2">
-                            dsgdsgdsgdsgsdgsd
+                            <label htmlFor="">
+                                <input type="file" id="teste" onChange={handleFile}/>
+                            </label>
                         </div>
                         <div className="w-1/2">
                         <h2>Status</h2>              

@@ -1,9 +1,13 @@
 from main import Conn
+from PIL import Image
+from io import BytesIO
+
+import json
 import mysql.connector
 
 class Persona: 
         
-     def calcModify(number):
+    def calcModify(number):
         modify = 0;
 
         if number == 1: 
@@ -70,19 +74,57 @@ class Persona:
             modify = 10
             return modify        
     
+    def getPersona(Id):
 
-     def getPersona(name):  
+        conn = Conn.connect_todb();
+        cursor = conn.cursor();
+        print(Id)
+        query = "SELECT Nome FROM view_persona_stats WHERE Criado_por="+Id;
+        cursor.execute(query);
+        result = cursor.fetchall();
+
+        return result
+    
+    def getPersonaInfo(name):  
          
          conn = Conn.connect_todb();
          cursor = conn.cursor();
 
          query = "SELECT * FROM view_persona_stats WHERE Nome='"+ name +"'";
          cursor.execute(query); 
-         nomes_colunas = cursor.column_names
-        #  result = cursor.fetchone()   
-         result = [dict(zip(nomes_colunas, linha)) for linha in cursor]    
-        
+         data = cursor.fetchone()        
+         result = {
+             "Nome": data[1],
+             "Nivel": data[2],
+             "Classe": data[4],
+             "Raça": data[3],
+             "Status": {
+                 "Força": data[7],
+                 "Destreza": data[8],
+                 "Constituição": data[9],
+                 "Carisma": data[10],
+                 "Inteligência": data[11],
+                #  "Sabedoria": data[12]
+             },
+             "Modificadores": {
+                 "Força": Persona.calcModify(data[7]),
+                 "Destreza": Persona.calcModify(data[8]),
+                 "Constituição": Persona.calcModify(data[9]),
+                 "Carisma": Persona.calcModify(data[10]),
+                 "Inteligência": Persona.calcModify(data[11]),
+                #  "Sabedoria": data[12]
+             }            
+         }   
+
          return result;
+
+    def uploadImagem(img):           
+        
+        imagem = Image.open(BytesIO(img))
+        path = 'E://apps//imm.png'
+        imagem.save(path)
+       
+        return 1
  
         
          

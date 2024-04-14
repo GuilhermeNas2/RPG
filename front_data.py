@@ -1,5 +1,6 @@
 import os
-
+import json
+from PIL import Image
 from classe import Persona
 from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
@@ -32,18 +33,37 @@ def receberDados3():
 
 # rota dos status
 @app.route('/postPersona', methods=['POST'])
-def postPersona():
-    data = request.json    
-    persona = Priest.insertPersona(data)  
+def postPersona():    
+    data = request.json      
+    persona = Priest.insertPersona(data) 
     
     return jsonify({'mensagem': data})
 
+@app.route('/postImage', methods=['POST'])
+def postImg():      
+    if 'image' not in request.files:
+        return 'No file part', 400
+    imagem = request.files['image']
+    image = Image.open(imagem)
+    print(image) 
+    image.save('C:\\Users\\tkdho\\Desktop\\Programação') 
+    # Persona.uploadImagem(imagem) 
+    
+    return jsonify({'mensagem': 1})
+
+@app.route('/getPersonaStats', methods=['GET'])
+def getPersonaStats():
+    data = request.args.get('nome') 
+    persona = Persona.getPersonaInfo(data)
+          
+    return jsonify({"status":persona})
+
 @app.route('/getPersona', methods=['GET'])
 def getPersona():
-    data = request.args.get('nome')  
+    data = request.args.get('id')     
+    personaList = Persona.getPersona(data)  
     
-    persona = Persona.getPersona(data)      
-    return jsonify({"status":persona})
+    return jsonify({'mensagem': personaList})
 
 # rota do login
 @app.route('/teste', methods=['GET'])    
