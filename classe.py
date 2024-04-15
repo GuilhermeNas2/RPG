@@ -118,13 +118,47 @@ class Persona:
 
          return result;
 
-    def uploadImagem(img):           
-        
-        imagem = Image.open(BytesIO(img))
-        path = 'E://apps//imm.png'
-        imagem.save(path)
+    def uploadImagem(img,user):           
+        nome_do_arquivo = img.filename        
+        imagem = Image.open(img)
+
+        path = 'C:\\Users\\tkdho\\Desktop\\Programação\\software_tkd\\Front\\rpg\\public\\Source\\'+nome_do_arquivo        
+        imagem.save(path)     
+
+        conn = Conn.connect_todb();
+        cursor = conn.cursor();
+
+        query = "INSERT INTO picture(Id,Foto,Criado_por,Modificado_por) values(%s,%s,%s,%s)"
+        values = (user, path,1,1)
+        cursor.execute(query,values);  
+        conn.commit();
        
-        return 1
+        return path
+    
+
+
+    def getClasse():
+
+        conn = Conn.connect_todb()
+        cursor = conn.cursor()
+
+        query = "SELECT Classe FROM classe"
+        cursor.execute(query)
+
+        resultC = cursor.fetchall()
+
+        query = "SELECT Raça FROM raça"
+        cursor.execute(query)
+
+        resultR = cursor.fetchall()      
+        
+        data = {
+            "Classe": resultC,
+            "Raça": resultR
+        }
+        
+       
+        return data
  
         
          

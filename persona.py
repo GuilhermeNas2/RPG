@@ -42,7 +42,6 @@ class Priest(Persona):
     def insertPersona(infos):
         data = [];
         data = infos["persona"]
-
         
         dataStats = []        
         dataStats = infos["status"]  
@@ -53,11 +52,17 @@ class Priest(Persona):
             conn = Conn.connect_todb();
             cursor = conn.cursor();
             query = "INSERT INTO persona(Nome,Nivel,Raça,Classe,Criado_por,Modificado_por) VALUES (%s,%s,%s,%s,%s,%s)";
-            values = (persona.nome,persona.nivel,persona.raca,persona.classe,1,1);
+            values = (persona.nome,persona.nivel,persona.raca,persona.classe,data["user"],1);
             cursor.execute(query,values);
             conn.commit();
 
             Priest.insertStatus(dataStats, data["nome"], persona.vida);
+        
+            query = "SELECT Id FROM persona WHERE Nome='"+persona.nome+"' ORDER BY Data_criacao DESC"
+            cursor.execute(query)
+            result = cursor.fetchone()
+
+            return result
            
         except Error as e:
             print('Algum erro ocorreu e')        

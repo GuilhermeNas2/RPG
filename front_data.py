@@ -19,10 +19,9 @@ def receberDados():
     data = request.json    
     return jsonify({'mensagem': number})
 
-@app.route('/rollstats', methods=['POST'])
+@app.route('/rollstats', methods=['GET'])
 def receberDados2():
-    number = Dice.rollStats()
-    data = request.json    
+    number = Dice.rollStats()      
     return jsonify({'mensagem': number})
 
 @app.route('/rolld20', methods=['POST'])
@@ -37,19 +36,17 @@ def postPersona():
     data = request.json      
     persona = Priest.insertPersona(data) 
     
-    return jsonify({'mensagem': data})
+    return jsonify({'mensagem': persona})
 
 @app.route('/postImage', methods=['POST'])
 def postImg():      
     if 'image' not in request.files:
         return 'No file part', 400
-    imagem = request.files['image']
-    image = Image.open(imagem)
-    print(image) 
-    image.save('C:\\Users\\tkdho\\Desktop\\Programação') 
-    # Persona.uploadImagem(imagem) 
-    
-    return jsonify({'mensagem': 1})
+    imagem = request.files['image']    
+    user = request.args['id']   
+    path = Persona.uploadImagem(imagem,user) 
+
+    return jsonify({'caminho': path})
 
 @app.route('/getPersonaStats', methods=['GET'])
 def getPersonaStats():
@@ -65,6 +62,12 @@ def getPersona():
     
     return jsonify({'mensagem': personaList})
 
+@app.route('/getClasse', methods=['GET'])
+def getClasse():       
+    result = Persona.getClasse()  
+    
+    return jsonify({'mensagem': result})
+
 # rota do login
 @app.route('/teste', methods=['GET'])    
 def getLogin():
@@ -72,6 +75,7 @@ def getLogin():
     key = request.args.get('key')
 
     login = Login.searchLogin(user, key)
+
     return jsonify({"status":login})
 
 @app.route('/signup', methods=['POST'])

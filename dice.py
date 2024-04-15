@@ -17,11 +17,17 @@ class Dice:
         nMax = 0;
         arrStats = [];
         while nMax <=3:
-            number = Dice.rollD6(1,1);
+            number = Dice.rollD6(6,1);
             arrStats.append(number);
             nMax +=1;
         minNumber = min(arrStats);
         arrStats.remove(minNumber);
-        print(arrStats);
+        print(arrStats)
 
-Dice.rollStats();
+        stats = 0
+        for numbers in arrStats:
+            stats += numbers 
+
+        return stats
+
+

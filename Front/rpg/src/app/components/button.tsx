@@ -1,10 +1,12 @@
 class Butt{
-    title: string | undefined
+    phrase: string | undefined
+    func?: any | undefined 
+    type?: any | undefined   
 }
 
 function Button(props: Butt){
     return(
-        <button type="submit" className="bg-lime-300 p-1 text-black rounded-sm">{props.title}</button>
+        <button type={props.type} className="bg-lime-300 p-1 text-black rounded-sm" onClick={props.func}>{props.phrase}</button>
     )
 }
 

@@ -3,15 +3,13 @@ import { useState } from "react"
 import { changePage } from "../router/router";
 import { LabelLogin } from "../components/label";
 import Link from "next/link";
-import { useUser } from "../userContext";
 
 export default function Login() {
     
     const [data, setData] = useState('');  
     const [erro, setErro] = useState<any>();  
     const [password, setPassword] = useState('');
-    const [name, setName] = useState(''); 
-    const {setUser} = useUser()
+    const [name, setName] = useState('');     
 
     
     async function sendData(event: { preventDefault: () => void }, user: string, key: string) {
@@ -24,31 +22,29 @@ export default function Login() {
                     'Content-type':'application/json'
                 }
             });
-            const data = await result.json();
-            console.log(data.status);
+            const data = await result.json();            
 
             if(!(data.status && Array.isArray(data.status)) && data.status.length > 0){                
                 setErro(data.status);
                 return
             };
 
-            setData(data);     
-            setUser(data.status[0]);     
+            setData(data);   
             changePage('home');          
-           
+            localStorage.setItem('data', JSON.stringify({'id': data.status[0] }));
             
         } catch {
             console.log("opa");
             
         }      
         
-    }   
+    };   
    
     
     function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         sendData(event, name, password); 
          
-    }   
+    };  
 
     return (
         <>

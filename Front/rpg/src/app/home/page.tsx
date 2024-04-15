@@ -1,16 +1,17 @@
 'use client'
 import { useState } from "react"
 import Header from "../components/header"
-import { useUser } from "../userContext"
 import Link from "next/link"
 
 export default function Home() {
-    const {user} = useUser()
+    
     const [persona, setPersona] = useState<any>([])
+
+    const user = JSON.parse(localStorage.getItem('data'))  
     
     const requestPersona = async () => {
         
-        const response = await fetch(`http://127.0.0.1:5000/getPersona?id=${user}`, {
+        const response = await fetch(`http://127.0.0.1:5000/getPersona?id=${user.id}`, {
             method: "GET",
             headers: {
                 "Content-type" : "application/json"
