@@ -30,6 +30,10 @@ def receberDados3():
     data = request.json    
     return jsonify({'mensagem': number})
 
+
+
+
+
 # rota dos status
 @app.route('/postPersona', methods=['POST'])
 def postPersona():    
@@ -67,6 +71,12 @@ def getClasse():
     result = Persona.getClasse()  
     
     return jsonify({'mensagem': result})
+
+
+
+
+
+
 
 # rota do login
 @app.route('/teste', methods=['GET'])    

@@ -1,6 +1,6 @@
 "use client";
 
-import Header from "./components/header";
+import {HeaderHome} from "./components/header";
 import Main from "./components/main";
 
 
@@ -8,7 +8,7 @@ export default function Home() {
 
   return (
     <>
-      <Header></Header>
+      <HeaderHome></HeaderHome>
       <Main>       
       </Main>
       <footer>

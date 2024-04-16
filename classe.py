@@ -1,3 +1,4 @@
+import re
 from main import Conn
 from PIL import Image
 from io import BytesIO
@@ -85,6 +86,11 @@ class Persona:
 
         return result
     
+    def removerCarectere(string):
+        path = re.sub(r'^.*?\\public', '', string)
+        path = path.replace('\\', '/')
+        return path
+    
     def getPersonaInfo(name):  
          
          conn = Conn.connect_todb();
@@ -92,7 +98,8 @@ class Persona:
 
          query = "SELECT * FROM view_persona_stats WHERE Nome='"+ name +"'";
          cursor.execute(query); 
-         data = cursor.fetchone()        
+         data = cursor.fetchone()  
+
          result = {
              "Nome": data[1],
              "Nivel": data[2],
@@ -113,7 +120,8 @@ class Persona:
                  "Carisma": Persona.calcModify(data[10]),
                  "Inteligência": Persona.calcModify(data[11]),
                 #  "Sabedoria": data[12]
-             }            
+             },          
+             "Path": Persona.removerCarectere(data[12]) 
          }   
 
          return result;

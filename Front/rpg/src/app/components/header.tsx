@@ -1,9 +1,7 @@
 import Link from "next/link"
 
 
-function Header(){
-
-
+export const Header = () => {
     return (
         <>
             <header className="flex justify-between p-5 bg-yellow-900 h-16">
@@ -21,4 +19,18 @@ function Header(){
 }
 
 
-export default Header
+export const  HeaderHome = () => {
+    return (
+        <>
+            <header className="flex justify-between p-5 bg-yellow-900 h-16">
+                <div>
+                    TKD RPG
+                </div>
+                <ol className="flex gap-10">
+                    <li><Link href={{ pathname: '/login' }}> Login</Link> </li>                    
+                </ol>
+            </header>           
+        </>
+    )
+
+}

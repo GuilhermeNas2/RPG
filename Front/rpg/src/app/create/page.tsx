@@ -3,7 +3,8 @@ import { useEffect, useState } from "react";
 
 import { Label, LabelInfo } from "../components/label";
 import Button from "../components/button";
-import Header from "../components/header";
+import { Header } from "../components/header";
+
 
 
 export default function createChar() {
