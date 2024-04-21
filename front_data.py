@@ -8,6 +8,7 @@ from flask_cors import CORS
 from dice import Dice
 from login import Login
 from persona import Priest
+from warrior import Warrior
 
 app = Flask(__name__)
 CORS(app)
@@ -31,14 +32,36 @@ def receberDados3():
     return jsonify({'mensagem': number})
 
 
-
-
-
 # rota dos status
 @app.route('/postPersona', methods=['POST'])
 def postPersona():    
-    data = request.json      
-    persona = Priest.insertPersona(data) 
+    data = request.json 
+    classe = data["persona"]["classe"]  
+   
+    if classe == 'Ladino':
+        persona = Priest.insertPersona(data) 
+    if classe == 'Guerreiro':
+        persona = Warrior.insertPersona(data) 
+    if classe == 'Druída':
+        persona = Priest.insertPersona(data) 
+    if classe == 'Clérigo':
+        persona = Priest.insertPersona(data) 
+    if classe == 'Mago':
+        persona = Priest.insertPersona(data) 
+    if classe == 'Feitiçeiro':
+        persona = Priest.insertPersona(data) 
+    if classe == 'Monge':
+        persona = Priest.insertPersona(data) 
+    if classe == 'Paladino':
+        persona = Priest.insertPersona(data) 
+    if classe == 'Patrulheiro':
+        persona = Priest.insertPersona(data) 
+    if classe == 'Bruxo':
+        persona = Priest.insertPersona(data) 
+    if classe == 'Bárbaro':
+        persona = Priest.insertPersona(data) 
+    if classe == 'Bardo':  
+        persona = Priest.insertPersona(data)     
     
     return jsonify({'mensagem': persona})
 

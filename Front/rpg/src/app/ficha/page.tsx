@@ -15,7 +15,7 @@ export default function Ficha() {
     
 
     const loadImage = (path:string) => {
-        const picture = document.querySelector('img');
+        const picture = document.getElementById('picture') as HTMLImageElement;
         
         if(picture){
          picture.src = path
@@ -51,7 +51,7 @@ export default function Ficha() {
             <Header></Header>
              {info && 
              <>
-                <main className="flex flex-col w-screen items-center">
+                <main className="flex flex-col w-screen items-center font-sedan">
                     <div className="border-b-2 w-1/4 my-5 ">
                         <h1 className="text-center text-5xl w-full">
                             {info["Nome"]}
@@ -65,7 +65,7 @@ export default function Ficha() {
                         </div>
                         <div className="flex w-full justify-between p-2">
                             <div className="w-1/2 flex items-center justify-center">
-                                <img className="w-1/3 h-1/2" src="" alt="Imagem do personagem" />
+                                <img id="picture" className="w-1/3 h-1/2" src="" alt="Imagem do personagem" />
                             </div>
                             <div className="w-1/6 gap-1 flex flex-col">
                                 <DivFicha title="Força" value={info.Status.Força} modify={info.Modificadores.Força}></DivFicha>

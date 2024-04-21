@@ -34,7 +34,7 @@ export default function createChar() {
         setPath(file)       
 
         const path = URL.createObjectURL(file);
-        const picture = document.querySelector('img');    
+        const picture = document.getElementById('picture') as HTMLImageElement;    
 
         if(picture)
         {
@@ -149,11 +149,11 @@ export default function createChar() {
                     </div>
                     <div className="flex bg-white justify-around p-2">
                         <div className="text-white w-1/2 flex flex-col items-center border-2">
-                            <div id="profilePicture" className=" w-1/2 h-1/2 bg-center">
-                                <img className="w-max h-max" alt="" />
+                            <div id="profilePicture" className=" w-1/2 h-1/2 p-2 flex items-center justify-center">
+                                <img id="picture" className="w-1/2 h-1/2" alt="" />
                             </div>
                             <label htmlFor="">
-                                <input type="file" id="teste" onChange={handleFile}/>                                                               
+                                <input type="file" id="teste" className="border-2" onChange={handleFile}/>                                                               
                             </label>                            
                         </div>
                         <div className="flex flex-col items-center">
