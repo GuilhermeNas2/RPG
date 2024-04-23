@@ -25,6 +25,10 @@ export default function createChar() {
     const [path, setPath] = useState('')
     const [classItem, setClassItem] = useState([]);
     const [raçaItem, setRaçaItem] = useState([]);
+    const [skills, setSkills] = useState([]);    
+    const [selectedItems, setSelectedItems] = useState<any>([]);
+
+    let habilidades:any = [];
 
     let user = JSON.parse(localStorage.getItem('data'))  
     user = user.id
@@ -79,8 +83,10 @@ export default function createChar() {
                 })
 
                 const data = await response.json()
+
                 setClassItem(data.mensagem.Classe);
                 setRaçaItem(data.mensagem.Raça);
+                setSkills(data.mensagem.Habilidades);
 
             } catch {
                 console.log('error')
@@ -109,7 +115,7 @@ export default function createChar() {
             headers: {
                 'Content-Type':'application/json',
             },
-            body: JSON.stringify({"persona":{nome, classe, nivel, raça, user},"status":{ str,int,des,char,cons,sab}}),
+            body: JSON.stringify({"persona":{nome, classe, nivel, raça, user},"status":{ str,int,des,char,cons,sab}, "skills":{habilidades}}),
         });
 
         const data = await response.json();
@@ -117,11 +123,28 @@ export default function createChar() {
        
     };  
 
+    const selectSkills:React.MouseEventHandler<HTMLLIElement> = (event) => {               
+        let li = event.currentTarget;      
+        let data = event.currentTarget.textContent;
+         
+        const index = selectedItems.indexOf(data);
+        if (index > -1) {        
+            setSelectedItems(selectedItems.filter((x: string | null) => x !== data));
+            li.className = '';
+        } else {        
+            setSelectedItems([...selectedItems, data]);
+            li.className = 'bg-sky-200 text-black'; 
+        };
+
+        return
+    };
+
+    
 
     return (
         <>
             <Header></Header>
-            <main >
+            <main className="font-sedan  text-xl" >
                 <form action=""
                 onSubmit={sendData}
                 className="w-full flex flex-col">
@@ -148,7 +171,14 @@ export default function createChar() {
                         <LabelInfo title="Nivel" nome={nivel} param={(e:any) => setNivel(e.target.value)} holder="Nivel" type="number"></LabelInfo>                                              
                     </div>
                     <div className="flex bg-white justify-around p-2">
+                        <div className="text-black text-center ">
+                            <h2 className="text-2xl border-b-2 border-black">Habilidades</h2>
+                            <ul className="cursor-pointer my-2">
+                                {skills && skills.map((key) => <li id="SK" className="" value={key} onClick={selectSkills}>{key}</li>)}
+                            </ul>
+                        </div>
                         <div className="text-white w-1/2 flex flex-col items-center border-2">
+                           
                             <div id="profilePicture" className=" w-1/2 h-1/2 p-2 flex items-center justify-center">
                                 <img id="picture" className="w-1/2 h-1/2" alt="" />
                             </div>
@@ -170,6 +200,12 @@ export default function createChar() {
                             <Label title="Sabedoria" nome={sab} param={(e:any) => setSab(e.target.value)} holder="Sabedoria" type="number"></Label> 
                         </div>
                     </div>   
+                    <div className="flex flex-col items-center">
+                        <h2>Mágias</h2>
+                        <div>
+
+                        </div>
+                    </div>
                     <Button type="submit" phrase="Enviar"></Button>                  
                 </form>
           </main>

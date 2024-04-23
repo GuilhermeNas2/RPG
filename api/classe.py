@@ -1,12 +1,104 @@
 import re
+
+from dice import Dice
 from main import Conn
 from PIL import Image
 from io import BytesIO
-
-import json
-import mysql.connector
+from mysql.connector import Error;
 
 class Persona: 
+
+    def __init__(self, nome, nivel, raca, classe):
+
+        lifeModify = Persona.getModifyDice(classe)        
+        self.nome = nome;
+        self.nivel = nivel
+        self.raca = raca;
+        self.classe = classe;
+        if nivel == "1":
+            self.vida = lifeModify[0];
+            return
+        else:
+            self.vida = lifeModify[0] + Dice.rollD6(lifeModify[0],nivel);     
+    
+    def insertSkills(skill, Id):
+        number = 0       
+        data = skill["habilidades"]
+        
+        try:
+            while number <= len(skill):
+                conn = Conn.connect_todb();                
+                cursor = conn.cursor();  
+
+                query = "INSERT INTO persona_skills(Id, habilidade, Criado_por, Modificado_por) VALUES(%s,%s,%s,%s)";        
+                values = (Id[0], data[number],1,1)
+                cursor.execute(query, values);
+
+                conn.commit(); 
+
+                number += 1
+        except:
+            print('oi')        
+
+      
+    def insertStatus(data, name, vida):
+        status = []
+        status = data;
+        nome = name        
+
+        iniciativa = Persona.calcModify(int(status["des"]))
+        
+        try:
+            conn = Conn.connect_todb();
+            cursor = conn.cursor();  
+            query = "SELECT Id FROM persona WHERE Nome='" + nome +"' ORDER BY Data_criacao DESC";        
+            cursor.execute(query);
+            Id = cursor.fetchone();                       
+            query = "INSERT INTO status(Id,Vida,Iniciativa,Força,Destreza,Carisma,Inteligência,Sabedoria,Criado_por,Modificado_por) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)";
+            values = (Id[0],vida[0],iniciativa,status["str"],status["des"],status["char"],status["int"],status["sab"],1,1);
+            cursor.execute(query,values); 
+
+            conn.commit(); 
+            
+        except Error as e:
+            print(f"Ocorreu algum erro {e}"  )
+
+    @staticmethod
+    def insertPersona(infos):
+        data = [];
+        data = infos["persona"]
+        
+        dataStats = []        
+        dataStats = infos["status"]  
+
+        dataSkills = []
+        dataSkills = infos["skills"]
+
+        persona = Persona(data["nome"],data["nivel"],data["raça"],data["classe"]);
+
+        try:
+            conn = Conn.connect_todb();
+            cursor = conn.cursor();
+            query = "INSERT INTO persona(Nome,Nivel,Raça,Classe,Criado_por,Modificado_por) VALUES (%s,%s,%s,%s,%s,%s)";
+            values = (persona.nome,persona.nivel,persona.raca,persona.classe,data["user"],1);
+            cursor.execute(query,values);
+            conn.commit();
+
+            Persona.insertStatus(dataStats, data["nome"], persona.vida);
+        
+            query = "SELECT Id FROM persona WHERE Nome='"+persona.nome+"' ORDER BY Data_criacao DESC"
+            cursor.execute(query)
+            result = cursor.fetchone()
+
+            Persona.insertSkills(dataSkills, result)
+
+            return result
+           
+        except Error as e:
+            print('Algum erro ocorreu e')        
+
+        
+
         
     def calcModify(number):
         modify = 0;
@@ -73,13 +165,23 @@ class Persona:
         
         if number == 30:
             modify = 10
-            return modify        
+            return modify     
+
+    def getModifyDice(Classe):
+        conn = Conn.connect_todb();
+        cursor = conn.cursor();
+        
+        query = "SELECT dice FROM classe WHERE Classe='"+Classe+"'";
+        cursor.execute(query);
+        result = cursor.fetchall();
+
+        return result
     
     def getPersona(Id):
 
         conn = Conn.connect_todb();
         cursor = conn.cursor();
-        print(Id)
+        
         query = "SELECT Nome FROM view_persona_stats WHERE Criado_por="+Id;
         cursor.execute(query);
         result = cursor.fetchall();
@@ -158,11 +260,18 @@ class Persona:
         query = "SELECT Raça FROM raça"
         cursor.execute(query)
 
-        resultR = cursor.fetchall()      
+        resultR = cursor.fetchall()    
+
+        
+        query = "SELECT habilidade FROM skills"
+        cursor.execute(query)
+
+        resultS = cursor.fetchall()     
         
         data = {
             "Classe": resultC,
-            "Raça": resultR
+            "Raça": resultR,
+            "Habilidades": resultS
         }
         
        
