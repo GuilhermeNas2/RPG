@@ -62,13 +62,27 @@ def getPersona():
     
     return jsonify({'mensagem': personaList})
 
+@app.route('/getClasseMagic', methods=['GET'])
+def getClasseMagic():
+    classe = request.args.get('class')  
+    nv = request.args.get('level')     
+    Magic = Persona.getClassMagic(classe, nv)  
+    
+    return jsonify({'magias': Magic})
+
 @app.route('/getClasse', methods=['GET'])
 def getClasse():       
     result = Persona.getClasse()  
     
     return jsonify({'mensagem': result})
 
+
+
+
+
 # rota do login
+
+
 @app.route('/teste', methods=['GET'])    
 def getLogin():
     user = request.args.get('user')

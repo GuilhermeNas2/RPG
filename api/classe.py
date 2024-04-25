@@ -10,7 +10,8 @@ class Persona:
 
     def __init__(self, nome, nivel, raca, classe):
 
-        lifeModify = Persona.getModifyDice(classe)        
+        lifeModify = Persona.getModifyDice(classe) 
+
         self.nome = nome;
         self.nivel = nivel
         self.raca = raca;
@@ -23,8 +24,8 @@ class Persona:
     
     def insertSkills(skill, Id):
         number = 0       
-        data = skill["habilidades"]
-        
+        data = skill["selectedItems"]
+        print(data);
         try:
             while number <= len(skill):
                 conn = Conn.connect_todb();                
@@ -95,9 +96,43 @@ class Persona:
             return result
            
         except Error as e:
-            print('Algum erro ocorreu e')        
+            print('Algum erro ocorreu e')     
 
+
+    def getClassMagic(data, nivel):
+
+        conn = Conn.connect_todb();
+        cursor = conn.cursor();  
+        query = "SELECT * FROM class_magic WHERE classe='"+ data+"' AND nivel <="+nivel ;        
+        cursor.execute(query);      
+        result = cursor.fetchall()
         
+        nome = []
+        descricao = []
+        
+        for i in range(0, len(result)):
+            nome.append(result[i][1])
+            descricao.append(result[i][4])
+
+        query = "SELECT  Magia,Nivel,descriçao FROM magic" ;        
+        cursor.execute(query);      
+        result = cursor.fetchall()  
+
+        nomeG = []
+        descriG = []
+        for i in range(0, len(result)):
+            nomeG.append(result[i][0])
+            descriG.append(result[i][2])  
+        
+        response = {
+           "nome": nome, 
+           "descricao": descricao,
+           "nGerais": nomeG,
+           "descriGerais": descriG
+        }
+
+
+        return response        
 
         
     def calcModify(number):

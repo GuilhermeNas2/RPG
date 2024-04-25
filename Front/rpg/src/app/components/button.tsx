@@ -6,7 +6,7 @@ class Butt{
 
 function Button(props: Butt){
     return(
-        <button type={props.type} className="bg-lime-300 p-1 text-black rounded-sm" onClick={props.func}>{props.phrase}</button>
+        <button type={props.type} className="bg-gray-300 p-2 text-black rounded-sm hover:bg-gray-400" onClick={props.func}>{props.phrase}</button>
     )
 }
 

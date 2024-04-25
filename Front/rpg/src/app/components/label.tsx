@@ -3,7 +3,7 @@ import {Inputs, InputsLogin} from "./inputs";
 class Teste{
     props?: string | undefined;
     title?: string | undefined;
-    nome?:  string | undefined;
+    nome?:  string | number | undefined;
     param?: any;
     holder?: string | undefined; 
     type?: string | undefined;  
@@ -13,12 +13,11 @@ class Teste{
 export const Label = (props: Teste, children: React.Component) => {
     return(
 
-        <label htmlFor="" className="flex flex-col bg-slate-200 mb-8 p-1 h-24 w-1/2 text-zinc-950 text-center rounded-md items-center gap-1">
+        <label htmlFor="" className="flex flex-col bg-slate-200 mb-8 p-1 h-20 w-1/2 text-zinc-950 text-center rounded-md items-center gap-1">
             {props.holder != null ? 
                 <>
                     {props.title}
-                    <Inputs nome={props.nome} param={props.param} type={props.type}/>
-                    <span className="border border-slate-950 w-10 rounded-md">A</span>
+                    <Inputs nome={props.nome} param={props.param} type={props.type}/>                    
                 </> 
                 : 
                 <>                    
@@ -31,7 +30,7 @@ export const Label = (props: Teste, children: React.Component) => {
 
 export const LabelInfo = (props: Teste) => {
     return(
-        <label htmlFor="" className="flex flex-col bg-slate-200 p-1 h-24 w-1/2 text-zinc-950 text-center rounded-md border-2 border-black items-center gap-1">
+        <label htmlFor="" className="flex flex-col bg-slate-200 px-2 h-24 w-1/2 text-zinc-950 text-center border-b-2 border-black items-start gap-1">
             {props.holder != null ? 
                 <>
                     {props.title}

@@ -42,3 +42,13 @@ body {
   }
 }
 
+
+#fixed-element {
+  position: absolute;
+  top: 0;
+}
+
+.fixed {
+  position: fixed;
+  top: 0;
+}
