@@ -74,11 +74,11 @@ class Login:
     
     def sendEmail(email):
         # password = os.environ.get("EMAIL_PASSWORD")
-        password = 'ctby glbf qjda azwf'
+        password = 
 
         smtp_server = "smtp.gmail.com"
         port = 465
-        sender_email = "tkdhouse2@gmail.com"
+        sender_email = 
         receiver_email = email
         
         # Crie a mensagem de email
